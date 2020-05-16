@@ -1,0 +1,13 @@
+LoadModule authnz_external_module modules/mod_authnz_external.so
+
+DefineExternalAuth pwauth pipe /usr/bin/pwauth
+
+<Directory /var/www/html/protected>
+    AuthType Basic
+    AuthName "PAM Authentication"
+    AuthBasicProvider external
+    AuthExternal pwauth
+    Require user {{ apache_user }} 
+</Directory>
+
+

@@ -1,0 +1,16 @@
+---
+- hosts: apps
+  tasks:
+  become: yes
+  tasks:
+    - name: install package apache pam
+      yum:
+        name:
+          - mod_authnz_external
+          - pwauth
+        state: installed
+
+    - name: copia archivo de configuracion
+      template:
+        src: authnz_external.conf.j2 
+        dest: etc/httpd/conf.d/authnz_external.conf
