@@ -1,0 +1,13 @@
+---
+- hosts: apps
+  tasks:
+  become: yes
+  tasks:
+
+    - name: copia archivo de configuracion
+      template:
+        src: iptables.j2 
+        dest: /etc/sysconfig/iptables
+    
+    - name: start iptables
+      
