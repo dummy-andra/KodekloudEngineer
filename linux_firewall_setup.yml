@@ -1,3 +1,4 @@
+#ansible-playbook linux_firewall_setup.yml 
 ---
 - hosts: apps
   become: yes
@@ -39,8 +40,4 @@
       systemd:
         name: firewalld
         state: reloaded
-
-
-
-
 

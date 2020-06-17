@@ -1,3 +1,4 @@
+#ansible-playbook pam_auth_for_apache.yml --extra-vars='apache_user=<set_user_exercice> 
 ---
 - hosts: apps
   tasks:
@@ -14,3 +15,11 @@
       template:
         src: authnz_external.conf.j2 
         dest: etc/httpd/conf.d/authnz_external.conf
+
+    - name: restart httpd
+      systemd:
+        name: httpd
+        state: restarted
+
+
+
