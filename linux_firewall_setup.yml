@@ -1,0 +1,46 @@
+---
+- hosts: apps
+  become: yes
+  vars: 
+    nginx_port: 
+    httpd_port: 
+  tasks:
+    - name: install package apache firewalld and net-tools
+      yum:
+        name:
+          - net-tools
+          - firewalld
+        state: installed
+
+    - name: start firewalld
+      systemd:
+        name: firewald
+        state: started
+
+    - name: listen ports facts
+      listen_ports_facts:
+
+
+    - name: enable nginx port
+      firewalld:
+        port: "{{ ansible_facts.tcp_listen | selectattr('name', 'equalto', 'nginx') | map(attribute='port') | sort | unique | list | first }}/tcp"
+        permanent: yes
+        zone: public
+        state: enabled
+
+    - name: enable httpd port from lbserver
+      firewalld:
+        rich_rule: "rule family=ipv4 source address={{ hostvars['stlb01']['ansible_host'] }} port protocol=tcp port={{ ansible_facts.tcp_listen | selectattr('name', 'equalto', 'httpd') | map(attribute='port') | sort | unique | list | first }} accept"
+        permanent: yes
+        zone: public
+        state: enabled
+
+    - name: reload service firewalld
+      systemd:
+        name: firewalld
+        state: reloaded
+
+
+
+
+
