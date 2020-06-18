@@ -1,7 +1,9 @@
 #
 ---
-- hosts: apps
+- hosts: stapp01
   become: yes
+  vars:
+    ansible_sudo_passs: "{{ ansible_pass }}"
   tasks:
     - name: add httpd.conf
       template:
@@ -11,5 +13,5 @@
     - name: restart httpd 
       systemd:
         name: httpd
-        state: resstarted
+        state: restarted
 
