@@ -1,0 +1,15 @@
+#
+---
+- hosts: apps
+  become: yes
+  tasks:
+    - name: add httpd.conf
+      template:
+        src: web_server_security_http.conf.j2
+        dest: /etc/httpd/conf/httpd.conf
+
+    - name: restart httpd 
+      systemd:
+        name: httpd
+        state: resstarted
+
