@@ -1,6 +1,6 @@
 #
 ---
-- hosts: stapp01
+- hosts: apps
   become: yes
   vars:
     ansible_sudo_passs: "{{ ansible_pass }}"
