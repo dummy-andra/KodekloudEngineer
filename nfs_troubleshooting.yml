@@ -11,7 +11,7 @@
   tasks:
     - name: "change owner {{ directory }} to {{ user_owner }} {{ group_owner }}"
       file:
-        path: "{{ directory_in }}"
+        path: "{{ directory }}"
         state: directory
         recurse: yes
         owner: "{{ user_owner }}" 
