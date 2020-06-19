@@ -1,4 +1,4 @@
-#ansible-playbook -i inventory --extra-vars='directory_server=/dir directory_client=/dir2'
+#ansible-playbook nfs_troubleshooting.yml -i inventory --extra-vars='directory_server=/dir directory_client=/dir2'
 ---
 - hosts: storage
   become: yes
