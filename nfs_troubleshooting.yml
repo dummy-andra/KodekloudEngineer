@@ -39,8 +39,6 @@
       mount:
         fstype: nfs
         opts: defaults
-        dump: 0
-        passno: 0
         state: mounted
         src: "{{ hostvars['ststor01']['ansible_host'] }}:{{ directory_server }}"
         path: "{{ directory_client }}"
