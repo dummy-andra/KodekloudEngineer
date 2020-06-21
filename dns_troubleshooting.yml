@@ -8,7 +8,7 @@
   tasks:
     - name: add resolv.conf
       copy:
-        src: dns_troubleshooting_resolv.conf
+        src: files/dns_troubleshooting_resolv.conf
         dest: /etc/resolv.conf
         mode: 0644
 
