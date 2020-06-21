@@ -7,8 +7,9 @@
     ansible_sudo_passs: "{{ ansible_pass }}"
   tasks:
     - name: add resolv.conf
-      template:
+      copy:
         src: dns_troubleshooting_resolv.conf
         dest: /etc/resolv.conf
+        mode: 0644
 
 
