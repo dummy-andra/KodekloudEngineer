@@ -7,7 +7,6 @@
   vars:
     ansible_sudo_passs: "{{ ansible_pass }}"
     packages: 
-      - yum install 
       - policycoreutils 
       - policycoreutils-python 
       - selinux-policy 
@@ -20,9 +19,8 @@
   tasks:
     - name: install package
       yum:
-         name: "{{ item }}"
+         name: "{{ packages }}"
          state: present
-      with_items: "{{ packages }}"
 
     - name: add /etc/selinux/config
       template:
