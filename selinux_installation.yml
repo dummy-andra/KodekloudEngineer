@@ -1,0 +1,35 @@
+#example
+#ansible-playbook selinux_installation.yml --extra-vars="status_selinux=disabled host=stapp01"
+#status_selinux=enforcing|permissive|disabled
+#host=some host were apply
+
+
+#test yes
+---
+- hosts: "{{ host }}"
+  become: yes
+  vars:
+    ansible_sudo_passs: "{{ ansible_pass }}"
+    packages: 
+    - policycoreutils 
+    - policycoreutils-python 
+    - selinux-policy 
+    - selinux-policy-targeted 
+    - libselinux-utils 
+    - setroubleshoot-server 
+    - setools 
+    - setools-console 
+    - mcstrans 
+   
+  tasks:
+    - name: install package
+      yum:
+        name: "{{ packages }}"
+        state: present
+
+    - name: add /etc/selinux/config
+      template:
+        src: selinux_installation_config.j2
+        dest: /etc/selinux/config
+
+
