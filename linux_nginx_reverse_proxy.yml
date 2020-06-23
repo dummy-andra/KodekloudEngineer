@@ -6,9 +6,6 @@
   become: yes
   vars:
     ansible_sudo_passs: "{{ ansible_pass }}"
-    - epel-release
-    - httpd
-    - nginx 
    
   tasks:
     # part of a and b
@@ -47,6 +44,10 @@
         - httpd
         - nginx
 
+    - name: copy /home/index/index.html /var/www/html/index.html
+      copy:
+        src: /home/index.html 
+        dest: /var/www/html/index.html
 
 
 
