@@ -1,6 +1,6 @@
 #example
 #ansible-playbook linux_nginx_reverse_proxy.yml --extra-vars="apache_port=number nginx_port=number2"
-#test no
+#test yes
 ---
 - hosts: "backup"
   become: yes
