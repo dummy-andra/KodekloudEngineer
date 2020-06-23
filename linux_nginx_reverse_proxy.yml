@@ -2,7 +2,7 @@
 #ansible-playbook linux_nginx_reverse_proxy.yml --extra-vars="apache_port=number nginx_port=number2"
 #test no
 ---
-- hosts: ""
+- hosts: "backup"
   become: yes
   vars:
     ansible_sudo_passs: "{{ ansible_pass }}"
