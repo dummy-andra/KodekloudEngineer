@@ -1,0 +1,49 @@
+#example
+#ansible-playbook linux_nginx_reverse_proxy.yml --extra-vars="apache_port=number nginx_port=number2"
+#test no
+---
+- hosts: ""
+  become: yes
+  vars:
+    ansible_sudo_passs: "{{ ansible_pass }}"
+    packages: 
+    - epel-release
+    - httpd
+    - nginx 
+   
+  tasks:
+    # part of a and b
+    - name: install package
+      yum:
+        name: "{{ packages }}"
+        state: present
+
+    # a
+    - name: add /etc/httpd/conf/httpd.con
+      template:
+        src: linux_nginx_reverse_proxy_http.conf.j2
+        dest: /etc/httpd/conf/httpd.conf
+
+    - name: add /etc/nginx/nginx.conf
+      template:
+        src: linux_nginx_reverse_proxy_nginx.conf.j2 
+        dest: /etc/nginx/nginx.conf
+
+    - name: restart services
+      systemd:
+        name: "{{ item }}"
+        state: started
+        enabled: yes
+      with_items:
+        - httpd
+        - nginx
+
+
+
+
+
+
+
+
+
+
