@@ -1,6 +1,6 @@
 #example
 #ansible-playbook install_and_configure_tomcat_server.yml --extra-vars="tomcat_port=numver"
-#test no
+#test yes
 ---
 - hosts: apps
   become: yes
@@ -31,4 +31,4 @@
     - name: copy ROOT.war
       copy:
         src: /tmp/ROOT.war
-        dest: /usr/shar/tomcat/webapps/ROOT.war
+        dest: /usr/share/tomcat/webapps/ROOT.war
