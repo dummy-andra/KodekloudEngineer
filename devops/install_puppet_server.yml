@@ -1,5 +1,5 @@
 #example
-#ansible-playbook install_and_configure_tomcat_server.yml --extra-vars="tomcat_port=numver"
+#ansible-playbook install_
 #test yes
 ---
 - hosts: apps
@@ -8,14 +8,13 @@
     ansible_sudo_passs: "{{ ansible_pass }}"
    
   tasks:
-    # part of a and b
-    - name: install tomcat
+    - name: install puppet
       yum:
-        name: tomcat
+        name: puppetserver
         state: present
 
     # a
-    - name: add server.xml
+    - name: add server.xl
       template:
         src: install_and_configure_tomcat_server_server.xml.j2
         dest: /etc/tomcat/server.xml
@@ -26,9 +25,5 @@
         state: started
         enabled: yes
       with_items:
-        - tomcat
+        - puppetserver
 
-    - name: copy ROOT.war
-      copy:
-        src: /tmp/ROOT.war
-        dest: /usr/share/tomcat/webapps/ROOT.war
