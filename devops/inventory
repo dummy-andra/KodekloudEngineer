@@ -22,3 +22,4 @@ stmail01 ansible_host=172.16.238.17 ansible_user=groot ansible_password=Gr00t123
 [bastion]
 jump_host ansible_host=localhost ansible_user=thor ansible_password=mjolnir123 ansible_sudo_pass=mjolnir123 
 
+
