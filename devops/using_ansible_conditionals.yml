@@ -1,37 +1,42 @@
-
+---
+#test yes
 - name: Using Ansible Conditionals
   hosts: all
-  variables:
-     file1:
-     file2:
-     file3:
-     origin: "/usr/src/sysops"
-     destination: "/opt/sysops"
-     permission: "0755"
+  vars:
+    ansible_sudo_pass: "{{ ansible_ssh_pass }}"
+    file1: "blog.txt"
+    file2: "story.txt"
+    file3: "media.txt"
+    origin: "/usr/src/finance"
+    destination: "/opt/finance"
+    permission: "0777"
+
   tasks:
   - name: "copy 1"
     copy:
       src: "{{ origin }}/{{ file1 }}"
-      dest: "{{ destination }}/{{ file1 }}"  
-      user: "{{ ansible_user }}"
+      dest: "{{ destination }}/{{ file1 }}"
+      owner: "{{ ansible_user }}"
       group: "{{ ansible_user }}"
       mode: "{{ permission }}"
-    when ansible_nodename == stapp01
+    when: ansible_nodename == "stapp01"
 
   - name: "copy 2"
+    copy:
       src: "{{ origin }}/{{ file2 }}"
       dest: "{{ destination }}/{{ file2 }}"  
-      user: "{{ ansible_user }}"
+      owner: "{{ ansible_user }}"
       group: "{{ ansible_user }}"
       mode: "{{ permission }}"
-    when ansible_nodename == stapp02
+    when: ansible_nodename == "stapp02"
 
   - name: "copy 3"
+    copy:
       src: "{{ origin }}/{{ file3 }}"
       dest: "{{ destination }}/{{ file3 }}"  
-      user: "{{ ansible_user }}"
+      owner: "{{ ansible_user }}"
       group: "{{ ansible_user }}"
       mode: "{{ permission }}"
-    when ansible_nodename == stapp03
+    when: ansible_nodename == "stapp03"
 
 
