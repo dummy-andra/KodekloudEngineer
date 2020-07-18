@@ -1,0 +1,20 @@
+---
+#test yes
+- name: Ansible file module
+  hosts: apps
+  become: yes
+  vars:
+    file1: ""
+    permission: ""
+
+  tasks:
+  - name: "create 1"
+    file:
+      path: "{{ file1 }}"
+      owner: "{{ ansible_user }}"
+      group: "{{ ansible_user }}"
+      mode: "{{ permission }}"
+      state: touch
+
+
+
