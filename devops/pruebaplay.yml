@@ -1,7 +1,0 @@
-- name: prueba
-  hosts: localhost
-  become: yes
-  tasks:
-    - name: prueba debug
-      debug: 
-        msg: "{{ ansible_nodename }}"
