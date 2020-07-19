@@ -27,4 +27,9 @@
       register: puppet_agent_output
 
     - debug: var=puppet_agent_output.stdout_lines
-      
+
+    - name: verifico el repo
+      shell: yum repolist
+      register: yum_repolist_output
+
+    - debug: var=yum_repolist_output.stdout_lines
