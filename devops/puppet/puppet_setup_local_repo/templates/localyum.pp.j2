@@ -1,0 +1,41 @@
+
+#puppetserver ca list --all
+#puppet parser validate <file>.pp
+#puppet apply <file>.pp
+
+# over agents
+# puppet agent -tv
+#
+#
+
+class {{ class_name }}{
+  yumrepo { '{{ repo_id }}':
+    name => '{{ repo_name }}',
+    enabled  => 1,
+    descr    => '{{ repo_id }}',
+    baseurl  => 'file:///{{ repo_source }}',
+    gpgcheck => 0,
+  }
+
+  package { '{{ package_name }}':
+    ensure  => 'installed',
+    require => Yumrepo['{{ repo_id }}'],
+  }
+}
+
+
+
+node 'stapp01.stratos.xfusioncorp.com' {
+    include {{ repo_id }}
+}
+
+node 'stapp02.stratos.xfusioncorp.com' {
+    include {{ repo_id }}
+}
+
+node 'stapp03.stratos.xfusioncorp.com' {
+    include {{ repo_id }}
+}
+
+node 'default' {
+}
