@@ -1,3 +1,4 @@
+#test no
 ---
 - name: create yum repo for puppet
   hosts: jump_host
