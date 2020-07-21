@@ -1,0 +1,35 @@
+#test no
+---
+- name: create yum repo for puppet
+  hosts: jump_host
+  vars:
+    programming: "cluster.pp"
+    dest: "/etc/puppetlabs/code/environments/production/manifests"
+    file_name: "blog.txt"
+    file_dir: "/opt/data"
+    content_file: "Welcome to xFusionCorp Industries!"
+    permision: "0655"
+
+  task:
+    - name: "Create {{ programming }} for template"
+      template:
+        src: setup_file_permision.pp.j2
+        dest: "{{ dest }}/{{ programming}}"
+
+    - name: "apply {{ programming }}"
+      shell: puppet apply {{ dest }}/{{ programming }}
+
+- name: execute on arguments
+  hosts: apps
+  tasks:
+    - name: puppet agent -t
+      shell: puppet agent -t
+      register: puppet_agent_output
+
+    - debug: var=puppet_agent_output.stdout_lines
+
+    - name: file exist
+      shell: ls
+      register: ls_output
+
+    - debug: var=ls_output.stdout_lines
