@@ -1,0 +1,96 @@
+---
+#test no
+- name: Using Ansible Conditionals
+  hosts: all
+  become: yes
+  vars:
+    ansible_sudo_pass: "{{ ansible_ssh_pass }}"
+    dir: "/opt/data"
+    file1:
+      name: "blog.txt"
+      entity: "tony"
+      etype: "group"
+      permissions: "r"
+      state: "present"
+    file2:
+      name: "story.txt"
+      entity: "steve"
+      etype: "user"
+      permissions: "rw"
+      state: "present"
+    file3:
+      name: "media.txt"
+      entity: "banner"
+      etype: "group"
+      permissions: "rw"
+
+  tasks:
+  - name: create files1
+    file:
+      path: "{{ dir }}/{{ file1.name}}"
+      state: touch
+      owner: root
+      group: root
+
+  - name: "set acl 1"
+    acl:
+      path: "{{ dir }}/{{ file1.name }}"
+      entity: "{{ file1.entity }}"
+      etype: "{{ file1.etype }}"
+      permissions: "{{ file1.permissions }}"
+      state: present
+    when: ansible_nodename == "stapp01"
+
+  - name: Obtain the ACL for a specific file
+    acl:
+      path: "{{ dir }}/{{ file1.name}}"
+    when: ansible_nodename == "stapp01"
+
+
+
+  - name: create files2
+    file:
+      path: "{{ dir }}/{{ file2.name}}"
+      state: touch
+      owner: root
+      group: root
+    when: ansible_nodename == "stapp02"
+
+
+  - name: "set acl2"
+    acl:
+      path: "{{ dir }}/{{ file2.name }}"
+      entity: "{{ file2.entity }}"
+      etype: "{{ file2.etype }}"
+      permissions: "{{ file2.permissions }}"
+      state: present
+    when: ansible_nodename == "stapp02"
+
+  - name: Obtain the ACL for a specific file
+    acl:
+      path: "{{ dir }}/{{ file2.name}}"
+    when: ansible_nodename == "stapp02"
+
+
+  - name: create files3
+    file:
+      path: "{{ dir }}/{{ file3.name}}"
+      state: touch
+      owner: root
+      group: root
+    when: ansible_nodename == "stapp03"
+
+  - name: "set acl3"
+    acl:
+      path: "{{ dir }}/{{ file3.name }}"
+      entity: "{{ file3.entity }}"
+      etype: "{{ file3.etype }}"
+      permissions: "{{ file3.permissions }}"
+      state: present
+    when: ansible_nodename == "stapp03"
+
+
+  - name: Obtain the ACL for a specific file
+    acl:
+      path: "{{ dir }}/{{ file2.name}}"
+    when: ansible_nodename == "stapp03"
