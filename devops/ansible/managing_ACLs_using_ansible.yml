@@ -1,5 +1,5 @@
 ---
-#test no
+#test yes
 - name: Using Ansible Conditionals
   hosts: all
   become: yes
