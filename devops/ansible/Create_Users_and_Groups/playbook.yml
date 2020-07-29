@@ -1,0 +1,39 @@
+---
+- name: Using Ansible Conditionals
+  hosts:
+  become: yes
+  tasks:
+#cd host_vars/<hostname>/apps/
+#ansible-vault create --vault-password-file ../secrets/vault.txt  vault.yml
+#ansible-edit --vault-password-file ../secrets/vault.txt  vault.vault.yml
+#devs_users_pass:
+#admin_users_pass:
+
+    - name: "include vars"
+      include_vars:
+        file: data/users.yml
+
+    - name: "add admins and developers groups"
+      group:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - admins
+        - developers
+
+    - name: Create dev users
+      user:
+        name: "{{ item }}"
+        group: developers
+        password: "{{ devs_users_pass | password_hash ('sha512') }}"
+        home: /var/www
+        state: present
+      with_items: '{{ developers }}'
+
+    - name: add users with admin
+      user:
+        name: "{{ item }}"
+        groups: admins, wheel
+        state: present
+        password: "{{ admins_users_pass | password_hash ('sha512') }}"
+      with_items: '{{ admins }}'

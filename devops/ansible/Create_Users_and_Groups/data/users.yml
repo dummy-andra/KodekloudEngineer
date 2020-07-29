@@ -1,0 +1,10 @@
+admins:
+  - user1
+  - user2
+  - user3
+
+developers:
+  - dev1
+  - dev2
+  - dev3
+  
