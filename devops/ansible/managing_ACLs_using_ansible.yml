@@ -41,10 +41,6 @@
       state: present
     when: ansible_nodename == "stapp01"
 
-  - name: Obtain the ACL for a specific file
-    acl:
-      path: "{{ dir }}/{{ file1.name}}"
-    when: ansible_nodename == "stapp01"
 
 
 
@@ -66,10 +62,6 @@
       state: present
     when: ansible_nodename == "stapp02"
 
-  - name: Obtain the ACL for a specific file
-    acl:
-      path: "{{ dir }}/{{ file2.name}}"
-    when: ansible_nodename == "stapp02"
 
 
   - name: create files3
@@ -90,7 +82,3 @@
     when: ansible_nodename == "stapp03"
 
 
-  - name: Obtain the ACL for a specific file
-    acl:
-      path: "{{ dir }}/{{ file2.name}}"
-    when: ansible_nodename == "stapp03"
