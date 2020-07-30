@@ -7,7 +7,7 @@
 #ansible-vault create --vault-password-file ../secrets/vault.txt  vault.yml
 #ansible-edit --vault-password-file ../secrets/vault.txt  vault.vault.yml
 #devs_users_pass:
-#admin_users_pass:
+#admins_users_pass:
 
     - name: "include vars"
       include_vars:
