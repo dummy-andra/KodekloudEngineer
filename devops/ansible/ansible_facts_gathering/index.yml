@@ -1,0 +1,29 @@
+---
+- name:
+  hosts: all
+  become: yes
+  vars:
+  tasks:
+    - name: create {{ file_name }} under /root
+      blockinfile:
+        path: /root/facts.txt
+        create: yes
+        block:
+          Ansible managed node IP is {{ ansible_default_ipv4.address }}
+
+    - name: install apache
+      yum:
+        name: httpd
+        state: installed
+
+    - name: copy file to index
+      copy:
+        dest: /var/www/html/index.html
+        src: /root/facts.txt
+        remote_src: yes
+
+    - name: start apache
+      systemd:
+        name: httpd
+        state: started
+        enabled: yes
