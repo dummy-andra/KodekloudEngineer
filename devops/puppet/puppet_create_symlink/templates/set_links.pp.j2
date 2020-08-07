@@ -1,0 +1,41 @@
+
+class symlink{
+
+  file { "{{ target_dir }}":
+    ensure => 'directory',
+    owner  => 'root',
+    mode   => '0755',
+  }
+
+
+  file { '{{ link }}':
+    target => '{{ target_dir }}',
+    ensure => 'link',
+    force => yes,
+  }
+
+  file { '{{ target_dir }}/{{ file_name }}':
+    path => '{{ target_dir }}/{{ file_name }}',
+    ensure => 'present'
+
+  }
+
+
+}
+
+
+
+node 'stapp01.stratos.xfusioncorp.com' {
+    include symlink
+}
+
+node 'stapp02.stratos.xfusioncorp.com' {
+    include symlink
+}
+
+node 'stapp03.stratos.xfusioncorp.com' {
+    include symlink
+}
+
+node 'default' {
+}

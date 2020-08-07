@@ -1,0 +1,37 @@
+#test no
+---
+- name: create yum repo for puppet
+  hosts: jump_host
+  become: yes
+  vars:
+    programming: "blog.pp"
+    dest: "/etc/puppetlabs/code/environments/production/manifests"
+    link: /var/www/html
+    target_dir: /opt/devops
+    file_name: story.txt
+
+
+  tasks:
+    - name: "Create {{ programming }} for template"
+      template:
+        src: /home/thor/templates/set_links.pp.j2
+        dest: "{{ dest }}/{{ programming}}"
+
+    - name: "apply {{ programming }}"
+      shell: /opt/puppetlabs/bin/puppet apply {{ dest }}/{{ programming }}
+
+- name: execute on arguments
+  hosts: apps
+  become: yes
+  tasks:
+    - name: puppet agent -t
+      shell: puppet agent -t
+      register: puppet_agent_output
+
+    - debug: var=puppet_agent_output.stdout_lines
+
+#    - name: file exist
+#      shell: ls
+#      register: ls_output
+#
+#    - debug: var=ls_output.stdout_lines
