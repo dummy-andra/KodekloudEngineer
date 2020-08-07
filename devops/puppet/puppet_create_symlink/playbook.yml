@@ -1,6 +1,6 @@
 #test no
 ---
-- name: create yum repo for puppet
+- name: create class puppet to link dir
   hosts: jump_host
   become: yes
   vars:
