@@ -1,0 +1,47 @@
+- hosts: localhost
+  become: yes
+  vars:
+    default_document_root: /var/www/html/myroot
+    template_path: ~/playbooks/templates/phpinfo.php.j2
+  tasks:
+    - name: install packages
+      yum:
+        name: 
+          - httpd
+          - php
+        state: present
+      tags:
+        - install
+
+    - name: ensure a directory exists
+      file:
+        path: "{{ default_document_root }}"
+        state: directory
+      tags:
+        - exist
+
+    - name: replace DocumetRoot
+      replace:
+        path: /etc/httpd/conf/httpd.conf
+        regexp: '^DocumentRoot\ "/var/www/html"$'
+        replace: 'DocumentRoot "{{ default_document_root }}"'
+      tags:
+        - replace
+
+
+    - name: copy php.info
+      template:
+        src: "{{ template_path }}"
+        dest: "{{ default_document_root }}/phpinfo.php"
+        group: apache
+        owner: apache
+      tags:
+        - copy
+    
+    - name: start and enable httpd
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+      tags:
+        - start
