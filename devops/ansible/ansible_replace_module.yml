@@ -1,0 +1,37 @@
+
+- hosts: app
+  become: yes
+  vars:
+    file1: "/opt/dba/blog.txt"
+    file2: "/opt/dba/story.txt"
+    file3: "/opt/dba/media.txt"
+    str_src1: "xFusionCorp"
+    str_dest1: "Nautilus"
+    str_src2: "Nautilus"
+    str_dest2: "KodeKloud"
+    str_src3: "KodeKloud"
+    str_dest3: "xFusionCorp"
+  tasks:
+    - name: replace in app1
+      replace:
+        path: "{{ file1 }}"
+        regexp: "{{ str_src1 }}"
+        replace: "{{ str_dest1 }}"
+      when: ansible_nodename == "stapp01"
+
+    - name: replace in app2
+      replace:
+        path: "{{ file2 }}"
+        regexp: "{{ str_src2 }}"
+        replace: "{{ str_dest2 }}"
+        
+      when: ansible_nodename == "stapp02"
+
+    - name: replace in app3
+      replace:
+        path: "{{ file3 }}"
+        regexp: "{{ str_src3 }}"
+        replace: "{{ str_dest3 }}"
+      when: ansible_nodename == "stapp03"
+    
+  
