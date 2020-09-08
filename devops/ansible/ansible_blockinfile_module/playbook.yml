@@ -1,0 +1,32 @@
+- hosts: all
+  become: yes
+  vars:
+  tasks:
+    - name: install packages
+      yum:
+        name: httpd
+        state: present
+
+    - name: start httpd
+      service:
+        name: httpd
+        enabled: yes
+        state: started
+
+    - name: replace usin blockinfile
+      blockinfile:
+        path: /var/www/html/index.html
+        owner: apache
+        group: apache
+        mode: '0655'
+        create: yes
+        block: |
+          Welcome to XfusionCorp!
+          This is Nautilus sample file, created using Ansible!
+          Please do not modify this file manually!
+
+    - name: restart httpd
+      service:
+        name: httpd
+        state: restarted
+

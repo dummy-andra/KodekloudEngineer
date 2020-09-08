@@ -1,0 +1,21 @@
+---
+- name: ansible_archive
+  hosts: all
+  become: yes
+  vars:
+    archive_file: /opt/itadmin/news.tar.gz
+    archive_src: /usr/src/itadmin
+        
+  tasks:
+  - name: archive directory
+    archive:
+      path: "{{ archive_src }}"
+      dest: "{{ archive_file }}"
+      format: gz
+
+  - name: set user and group
+    file:
+      path: "{{ archive_file }}"
+      owner: "{{ ansible_user }}"
+      group: "{{ ansible_user }}"
+
