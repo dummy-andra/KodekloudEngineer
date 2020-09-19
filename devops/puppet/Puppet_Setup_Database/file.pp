@@ -1,3 +1,4 @@
+#pass yes
 class mysql_database {
   package {'mariadb-server':
       ensure => installed,
