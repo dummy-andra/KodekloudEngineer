@@ -1,0 +1,54 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-devops #change
+spec:
+  capacity:
+    storage: 9Gi #change
+  accessModes:
+  - ReadWriteOnce #change
+  storageClassName: manual #change
+  hostPath:                    #change [hostPath| local]
+    path: /mnt/finance             #change
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - node01 #change
+---
+apiVersion: v1
+kind: PersistentVolumeClaim 
+metadata:
+  name: pvc-devops  #change
+spec:
+  accessModes:
+  - ReadWriteOnce #change
+  volumeName: pv-devops #cange same as persistent volume 
+  resources:
+      requests:
+        storage: 5Gi #change
+  storageClassName: manual #change
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-devops #change
+spec:
+  containers:
+  - image: httpd:latest #change it if nginx is in question
+    name: container-devops #change
+    ports:
+    - containerPort: 80 #change
+      name: web  
+    volumeMounts:
+    - name: storage-devops # change
+      mountPath: /var/www/html #change  if nginx is in question /usr/shaer/nginx/html
+  volumes:
+  - name: storage-devops #change
+    persistentVolumeClaim:
+        claimName:  pvc-devops #change same name as persistent volume claim
