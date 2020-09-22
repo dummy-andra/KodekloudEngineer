@@ -1,0 +1,45 @@
+#pass
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+    name:  httpd-namespace-datacenter #change
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: httpd-service-datacenter #change
+  namespace: httpd-namespace-datacenter #change
+spec:
+  type: NodePort
+  selector:
+    app: httpd_app_datacenter #change
+  ports:
+    # By default and for convenience, the `targetPort` is set to the same value as the `port` field.
+  - port: 80
+    targetPort: 80
+    nodePort: 30004 #change
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: httpd-deployment-datacenter #change
+  namespace: httpd-namespace-datacenter #change
+spec:
+  replicas: 4 #change
+  selector:
+    matchLabels:
+      app: httpd_app_datacenter  #change
+  template:
+    metadata:
+      labels:
+        app: httpd_app_datacenter #change
+    spec:
+      containers:
+      - name: httpd-container-datacenter #change
+        image: httpd:latest
+        ports:
+        - containerPort: 80
+
