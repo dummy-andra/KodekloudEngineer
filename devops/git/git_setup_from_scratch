@@ -1,0 +1,32 @@
+
+#go to storage server
+#ssh natasha@ststor01
+# Bl@kW
+#a
+yum install git -y
+git config --global user.email "natasha@stratos.xfusioncorp.com"
+git config --global user.name "natasha"
+
+git init --bare <nombrerepo>
+
+
+#b
+cd <path_repo>
+cp /tmp/sample hooks/
+
+#c
+cd <another_path>
+git clone <path_repo>
+cd <name_repo>
+
+#d
+git checkout -b <new_branch>
+cp /tmp/<file> ./
+git add <file>
+git commit -m "addfile" <file>
+git push origin <new_branch>
+
+#f
+git branch -a
+git checkout -b master
+git push origin master
